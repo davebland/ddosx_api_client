@@ -24,3 +24,4 @@ pnpm-debug.log*
 
 # Config
 domains.json
+vue.config.js

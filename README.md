@@ -4,4 +4,4 @@
 
 Built in VueJs 2 & scaffolded with Vue CLI.
 
-Add domains in domains.json
+Prepopulate domains.json if required

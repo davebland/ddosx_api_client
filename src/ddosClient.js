@@ -8,12 +8,12 @@ export class DdosxAclClient {
         "mode": "*"          
     };
     blockButtonDisabled = false;        
-    blockButtonText = "Block All";
+    blockButtonText = "Block";
     deployButtonDisabled = false;
     deployButtonText = "Deploy";
     blockAclId = String();
     allowButtonDisabled = true;
-    allowButtonText = "Allow All";
+    allowButtonText = "Allow";
     
     constructor(domain) {
         this.name = domain;
@@ -29,10 +29,10 @@ export class DdosxAclClient {
         this.blockButtonText = "...";
         this.blockButtonDisabled = true;
 
-        await fetch(`https://api.ukfast.io/ddosx/v1/domains/${this.name}/acls/ips`, {
-            method: 'POST',
+        await fetch(`https://api.humboldt.dev/ukfast/ddosx/v1/domains/${this.name}/acls/ips`, {
+            method: 'POST',        
             headers: {
-                'Authorization' : this.#getApiKey()
+                'Authorization' : this.#getApiKey(),                
             },
             body: this.blockRequestBody
         })
@@ -59,7 +59,7 @@ export class DdosxAclClient {
         this.deployButtonText = "...";
         this.deployButtonDisabled = true;
 
-        await fetch(`https://api.ukfast.io/ddosx/v1/domains/${this.name}/deploy`, {
+        await fetch(`https://api.humboldt.dev/ukfast/ddosx/v1/domains/${this.name}/deploy`, {
             method: 'POST',
             headers: {
                 'Authorization' : this.#getApiKey()
@@ -68,7 +68,7 @@ export class DdosxAclClient {
             .then(response => {
                 this.deployButtonText = response.status;  
                 if (!response.ok) {                                              
-                    throw 'API response no OK: ' + response.status;
+                    throw 'API response not OK: ' + response.status;
                 }                        
             })
             .catch((err) => {
@@ -84,7 +84,7 @@ export class DdosxAclClient {
         this.allowButtonText = "...";
         this.allowButtonDisabled = true;
 
-        await fetch(`https://api.ukfast.io/ddosx/v1/domains/${this.name}/acls/ips/${this.blockAclId}`, {
+        await fetch(`https://api.humboldt.dev/ukfast/ddosx/v1/domains/${this.name}/acls/ips/${this.blockAclId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization' : this.#getApiKey()
@@ -93,7 +93,7 @@ export class DdosxAclClient {
             .then(response => {
                 this.allowButtonText = response.status;  
                 if (!response.ok) {                                              
-                    throw 'API response no OK: ' + response.status;
+                    throw 'API response not OK: ' + response.status;
                 }                        
             })
             .catch((err) => {

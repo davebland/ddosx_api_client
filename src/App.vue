@@ -8,12 +8,24 @@
         <label>API Key</label>
         <md-input id="apiKey" type="password"></md-input>
       </md-field>
+
+      <div class="md-layout md-alignment-center-center">
+        <div class="md-layout-item md-size-40">
+          <md-field>
+            <label>Add Domain</label>
+            <md-input id="apiKey" type="text" v-model="newDomain"></md-input>
+          </md-field>
+        </div>
+        <div class="md-layout-item md-size-10">
+          <md-button  class="md-layout-item md-raised" @click="addDomain()">Add</md-button>
+        </div>        
+      </div>
       
       <div id="global-controls" class="md-layout md-gutter md-alignment-center-right">
         <div class="md-layout-item md-layout md-size-50">            
-          <md-button  class="md-layout-item md-raised" @click="blockAll()">Block</md-button>
-          <md-button  class="md-layout-item md-raised" @click="deployAll()">Deploy</md-button>
-          <md-button  class="md-layout-item md-raised" @click="allowAll()">Allow</md-button>
+          <md-button  class="md-layout-item md-raised" @click="blockAll()">Block All</md-button>
+          <md-button  class="md-layout-item md-raised" @click="deployAll()">Deploy All</md-button>
+          <md-button  class="md-layout-item md-raised" @click="allowAll()">Allow All</md-button>
         </div>  
       </div>
       
@@ -44,8 +56,7 @@ export default {
   data() {
     return {
       domains: [],
-      apiKey: "",
-      disabled: true
+      newDomain: ""
     }
   },
   created() {
@@ -55,8 +66,23 @@ export default {
     })
   },
   methods: {
+    addDomain() {
+      this.domains.push(new DdosxAclClient(this.newDomain));
+    },
     blockAll() {
-      null
+      this.domains.forEach((domain) => {
+        domain.blockAccess();
+      })
+    },
+    deployAll() {
+      this.domains.forEach((domain) => {
+        domain.deployChanges();
+      })
+    },
+    allowAll() {
+      this.domains.forEach((domain) => {
+        domain.allowAccess();
+      })
     }
   }
 }
